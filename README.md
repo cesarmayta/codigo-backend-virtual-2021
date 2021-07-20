@@ -11,7 +11,7 @@ Hola! 👋🏻 las ramas están organizadas por semana, es decir **CADA RAMA SER
 1. Para navegar entre ellas simplemente debes descargarte el repositorio mediante el siguiente comando:
 
 ```
-git clone https://github.com/ederivero/Codigo-backend-virtual-06.git
+git clone https://github.com/cesarmayta/codigo-backend-virtual-2021.git
 ```
 
 2. Una vez que haya descargado, ahora, tendrás que ingresar a la carpeta `Codigo-backend-virtual-06\` recien creada y estaras en la rama `main` entonces deberás ejecutar el siguiente comando dependiendo de a que rama quieras acceder:
