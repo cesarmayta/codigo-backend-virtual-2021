@@ -1,4 +1,5 @@
 from libAlumno import *
+import os
 #PROGRAMA PARA GESTÓN DE ALUMNOS
 #CRUD : CREATE , READ, UPDATE, DELETE
 #DEFINIR VARIABLES DE ENTRADA Y SALIDA
@@ -13,11 +14,20 @@ def menuopciones():
     print("[3] ACTUALIZAR ALUMNO")
     print("[4] ELIMINAR ALUMNO")
     print("*" * 20)
-    
-fr = open('alumnos.txt','r')
-fAlumnos = fr.read()
-print(fAlumnos)
-alumnos = cargarAlumnos(fAlumnos)
+
+fileName = r"alumnos2.txt"
+
+if(os.path.isfile(fileName)):
+    fr = open(fileName,'r')
+    fAlumnos = fr.read()
+    print(fAlumnos)
+    alumnos = cargarAlumnos(fAlumnos)
+    fr.close()
+else:
+    fr = open('alumnos2.txt','w')
+    fr.write("\n")
+    alumnos = []
+    fr.close()
 
 while(salir == 'no'):
     menuopciones()
@@ -39,5 +49,6 @@ while(salir == 'no'):
     salir = input()
     if(salir == "si"):
         strAlumnosGrabar = grabarAlumnos(alumnos)
-        fw = open('alumnos.txt','w')
+        fw = open(fileName,'w')
         fw.write(strAlumnosGrabar)
+        fw.close()
