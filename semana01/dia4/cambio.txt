@@ -1,0 +1,6 @@
+Dólar de N.A. | 3.936 | 3.944
+Peso Colombiano | 0.001 | 0.001
+Libra Esterlina | 5.427 | 5.471
+Peso Mexicano |   | 0.227
+Franco Suizo | 4.290 | 4.290
+Euro | 4.535 | 4.941

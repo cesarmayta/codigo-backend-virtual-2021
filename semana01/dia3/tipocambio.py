@@ -15,7 +15,7 @@ if status_code == 200:
     for empresa in empresas:
         moneda = empresa.find('td',{'class':'APLI_fila3'})
         tipocambio = empresa.find('td',{'class':'APLI_fila2'})
-        print(moneda)
-        print(tipocambio)
+        print(moneda.get_text())
+        print(tipocambio.get_text())
 else:
     print("error nro" + str(status_code))
