@@ -5,7 +5,7 @@ class clsPersona:
         self.email = ema
         self.celular = cel
         
-    def registarse(self):
+    def registrarse(self):
         pass
 
 class clsUsuario:
@@ -28,7 +28,7 @@ class clsProfesor(clsPersona,clsUsuario):
         pass
         
 
-class clsAlumno:
+class clsAlumno(clsPersona):
     
     def __init__(self,nom,ema,cel):
         self.nombre = nom

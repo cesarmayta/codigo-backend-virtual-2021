@@ -20,13 +20,10 @@ def cargarAlumnos(strAlumnos):
         lstAlumnos = strAlumnos.splitlines()
         del lstAlumnos[0]
         for objAlumno in lstAlumnos:
-            #cesar,cesarmayta@gmail.com,956290589
-            #['cesar','cesarmayta@gmail.com','956290589']
             lstObjAlumno = objAlumno.split(',')
             nombre = lstObjAlumno[0]
             email = lstObjAlumno[1]
             celular = lstObjAlumno[2]
-            #intancia de clase clsAlumno
             nuevoAlumno = clsAlumno(nombre,email,celular)
             lstAlumnosData.append(nuevoAlumno)
         return lstAlumnosData
