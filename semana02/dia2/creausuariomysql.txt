@@ -1,0 +1,19 @@
+1 - ingresamos a mysql
+mysql -h localhost -u root -p
+nota: nos pedira clave, le colocamos ENTER(no tiene clave)
+
+2 - creamos la base de datos
+create database db_sistema;
+
+3 - creamos un usuario
+create user 'usistema'@'localhost' identified by '1234567';
+
+4 - asignamos permisos
+grant all privileges on db_sistema.* to usistema@localhost;
+flush privileges;
+
+TAREA:
+crear tabla clientes con los siguientes campos
+id,nombre,email,direccion,celular,distrito_id,dni
+
+relacionarlo con la tabla distrito que tiene campos id,nombre
