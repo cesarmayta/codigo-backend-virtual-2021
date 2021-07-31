@@ -1,21 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
-</head>
-<body>
-    <H1>HOLA {{ nombre }}</H1>
-    <p>Tu dirección IP ES : {{ user_ip }}</p>
-    {% if user_ip == '127.0.0.1' %}
-        <h2>Esta conectado desde su pc local</h2>
-    {% endif %}
-    <ul>
-        {% for p in productos %}
-            <li>PRODUCTO: {{ p }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends 'basebs.html' %}
+{%block title %} SISTEMA POS {% endblock%}
+    {%block content %}
+        <H1>HOLA {{ nombre }}</H1>
+        <p>Tu dirección IP ES : {{ user_ip }}</p>
+        {% if user_ip == '127.0.0.1' %}
+            <h2>Esta conectado desde su pc local</h2>
+        {% endif %}
+        
+    {% endblock %}
+
+    
