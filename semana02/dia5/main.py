@@ -2,9 +2,6 @@ from flask import Flask,render_template,request
 from flask_bootstrap import Bootstrap
 from flask_mysqldb import MySQL
 
-#pip install flask-mysqldb
-#pip install flask-bootstrap4
-
 app = Flask(__name__)
 
 #Configuracion de BASE DE DATOS
@@ -19,7 +16,7 @@ app.secret_key = "mysecretkey"
 
 Bootstrap(app)
 
-#lstProductos = ['LAPTOP','IMPRESORA HP','SILLA GAMER']
+lstProductos = ['LAPTOP','IMPRESORA HP','SILLA GAMER']
 
 @app.route('/')
 def index():
@@ -34,21 +31,38 @@ def index():
     }
     return render_template('index.html',**context)
 
-@app.route('/productos')
+@app.route('/productos',methods=['GET','POST'])
 def productos():
     print("productos:::::")
-    cur = mysql.connection.cursor()
-    cur.execute('SELECT * from producto')
-    data = cur.fetchall()
-    cur.close()
+    #CURSOR CATEGORIAS
+    curCategoria = mysql.connection.cursor()
+    curCategoria.execute('SELECT * from cat_producto')
+    dataCategoria = curCategoria.fetchall()
+    curCategoria.close()
+    
+    catId = 0
+    
+    if request.method == 'POST' and int(request.form['categoria']) > 0 :
+        catId = request.form['categoria']
+        sqlProducto = "SELECT * FROM PRODUCTO where cat_producto_id=" + catId
+    else:
+        sqlProducto = "SELECT * FROM PRODUCTO"
+    
+    #CURSOR PRODUCTOS
+    curProducto = mysql.connection.cursor()
+    curProducto.execute(sqlProducto)
+    dataProducto = curProducto.fetchall()
+    curProducto.close()
 
-    print(data)
+    print(catId)
+    
     context = {
-        'data':data
+        'dataCategoria':dataCategoria,
+        'dataProducto':dataProducto,
+        'catId':catId
     }
     return render_template('productos.html',**context)
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5000)
-
+    app.run(debug=True,port=5001)
 
