@@ -1,18 +1,22 @@
 {% extends 'basebs.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
 {% block title %}
     PRODUCTOS
 {% endblock %}
 {% block content %}
 <H2>PRODUCTOS</H2>
+{{catId}}
 <form action="{{ url_for('productos') }}" method="POST">
-    CATEGORIA : <select name=categoria onchange="this.form.submit()">
+    CATEGORIA : <select name="categoria" onchange="this.form.submit()">
             <option value=0>TODOS</option>
         {% for categoria in dataCategoria %}
-            <option value="{{ categoria.0 }}"
-            {% if catId == categoria.0 %}
-                selected
+            {% if 1 == catId %}
+                <option value="{{ categoria.0 }}" selected>{{ categoria.0 }} - {{ categoria.1 }}</option>
+            {% else %}
+                <option value="{{ categoria.0 }}">{{ categoria.1 }}</option>
             {% endif %}
-            >{{ categoria.1 }}</option>
+            
         {% endfor %}
     </select>
 </form>
@@ -37,4 +41,8 @@
     
     </tbody>
   </table>
+  <h2>Nuevo Producto</h2>
+  <div class="container">
+      {{ wtf.quick_form(frmProducto) }}
+  </div>
 {% endblock %}
