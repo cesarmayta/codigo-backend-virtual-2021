@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for
 from flask_bootstrap import Bootstrap
 from flask_mysqldb import MySQL
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField
+from wtforms import StringField,SubmitField,HiddenField
 from wtforms.validators import DataRequired
 
 
@@ -25,6 +25,7 @@ lstProductos = ['LAPTOP','IMPRESORA HP','SILLA GAMER']
 
 #formularios
 class frmProducto(FlaskForm):
+    id = HiddenField("hdnId")
     categoria = StringField('Categoria :',validators=[DataRequired()])
     nombre = StringField('Nombre :',validators=[DataRequired()])
     marca = StringField('Marca :',validators=[DataRequired()])
@@ -35,7 +36,7 @@ class frmProducto(FlaskForm):
     discoduro = StringField('Disco Duro :',validators=[DataRequired()])
     precio = StringField('Precio :',validators=[DataRequired()])
     stock = StringField('Stock :',validators=[DataRequired()])
-    submit = SubmitField('Registrar Nuevo Producto')
+    submit = SubmitField('Guardar')
     
 @app.route('/')
 def index():
@@ -50,6 +51,7 @@ def index():
     }
     return render_template('index.html',**context)
 
+#@app.route('/productos/<id>')
 @app.route('/productos',methods=['GET','POST'])
 def productos():
     print("productos:::::")
@@ -73,9 +75,33 @@ def productos():
     dataProducto = curProducto.fetchall()
     curProducto.close()
 
-    print(catId)
     
     frmNuevoProducto = frmProducto()
+    
+    
+    pId = request.args.get('pid','0')
+    
+    print("ID DEL PRODUCTO SELECCIONADO = " + pId)
+    #CARGAMOS EL PRODUCTO A EDITAR
+    if pId != "0" and request.method == 'GET':
+        curProductoEditar = mysql.connection.cursor()
+        curProductoEditar.execute("select * from producto where id=%s",(pId))
+        dataProductoEditar = curProductoEditar.fetchone()
+        curProductoEditar.close()
+        print("DATOS DEL PRODUCTO A EDITAR :")
+        print(dataProductoEditar)
+        #llenamos los valores del producto a editar en el formulario
+        frmNuevoProducto.id.data = dataProductoEditar[0]
+        frmNuevoProducto.categoria.data = dataProductoEditar[1]
+        frmNuevoProducto.nombre.data = dataProductoEditar[2]
+        frmNuevoProducto.marca.data = dataProductoEditar[3]
+        frmNuevoProducto.modelo.data = dataProductoEditar[4] 
+        frmNuevoProducto.serie.data = dataProductoEditar[5]
+        frmNuevoProducto.ram.data = dataProductoEditar[6]
+        frmNuevoProducto.procesador.data = dataProductoEditar[7]
+        frmNuevoProducto.discoduro.data = dataProductoEditar[8]
+        frmNuevoProducto.precio.data = dataProductoEditar[9]
+        frmNuevoProducto.stock.data = dataProductoEditar[10]
     
     context = {
         'dataCategoria':dataCategoria,
@@ -85,6 +111,8 @@ def productos():
     }
     
     if frmNuevoProducto.validate_on_submit():
+        
+        id = frmNuevoProducto.id.data
         categoriaId = frmNuevoProducto.categoria.data
         nombre = frmNuevoProducto.nombre.data
         marca = frmNuevoProducto.marca.data
@@ -96,9 +124,25 @@ def productos():
         precio = frmNuevoProducto.precio.data
         stock = frmNuevoProducto.stock.data
         
-        curNuevoProducto = mysql.connection.cursor()
-        curNuevoProducto.execute("INSERT INTO producto(cat_producto_id,nombre,marca,modelo,nro_serie,mem_ram,procesador,disco_duro,precio,stock) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(categoriaId,nombre,marca,modelo,serie,ram,procesador,discoduro,precio,stock))
-        mysql.connection.commit()
+        print("producto a editar:" + str(id))
+        
+        if id > 0:
+            #actualizar producto
+            print("actualizamos")
+            curUpdateProducto = mysql.connection.cursor()
+            sqlActualizarProducto = "UPDATE producto "
+            sqlActualizarProducto +="SET cat_producto_id='" + str(categoriaId) + "'" 
+            sqlActualizarProducto +=",nombre='" + nombre + "'"
+            sqlActualizarProducto +=" where id=" + str(id) + ""
+            print("SQL UPDATE:" + sqlActualizarProducto)
+            curUpdateProducto.execute(sqlActualizarProducto)
+            mysql.connection.commit()
+        else:
+            #registrar producto
+            print("registramos")
+            curNuevoProducto = mysql.connection.cursor()
+            curNuevoProducto.execute("INSERT INTO producto(cat_producto_id,nombre,marca,modelo,nro_serie,mem_ram,procesador,disco_duro,precio,stock) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(categoriaId,nombre,marca,modelo,serie,ram,procesador,discoduro,precio,stock))
+            mysql.connection.commit()
         
         return redirect(url_for('productos'))
         

@@ -32,7 +32,7 @@
     <tbody>
         {% for d in dataProducto %}
         <tr>
-            <th scope="row">{{ d.0 }}</th>
+            <th scope="row"><a href="{{ url_for('productos') }}?pid={{ d.0 }}">{{ d.0 }}</a></th>
             <td>{{ d.2 }}</td>
             <td>{{ d.9 }}</td>
             <td>{{ d.10 }}</td>

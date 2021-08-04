@@ -11,7 +11,20 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+-- Volcando estructura para tabla db_sistemapos.tipo_doc_ide
+CREATE TABLE IF NOT EXISTS `tipo_doc_ide` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='tipos de documentos de identidad';
 
+-- Volcando datos para la tabla db_sistemapos.tipo_doc_ide: ~3 rows (aproximadamente)
+/*!40000 ALTER TABLE `tipo_doc_ide` DISABLE KEYS */;
+INSERT INTO `tipo_doc_ide` (`id`, `nombre`) VALUES
+	(1, 'DNI'),
+	(2, 'RUC'),
+	(3, 'CARNET EXTRANJERIA');
+/*!40000 ALTER TABLE `tipo_doc_ide` ENABLE KEYS */;
 -- Volcando estructura para tabla db_sistemapos.cat_producto
 CREATE TABLE IF NOT EXISTS `cat_producto` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -75,20 +88,7 @@ INSERT INTO `producto` (`id`, `cat_producto_id`, `nombre`, `marca`, `modelo`, `n
 	(6, 2, 'LAPTOP BASICA', 'HP', 'PAVILION', '22332', '4 GB', 'INTEL CORE I3', '500 GB', 1200.00, 20);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 
--- Volcando estructura para tabla db_sistemapos.tipo_doc_ide
-CREATE TABLE IF NOT EXISTS `tipo_doc_ide` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci COMMENT='tipos de documentos de identidad';
 
--- Volcando datos para la tabla db_sistemapos.tipo_doc_ide: ~3 rows (aproximadamente)
-/*!40000 ALTER TABLE `tipo_doc_ide` DISABLE KEYS */;
-INSERT INTO `tipo_doc_ide` (`id`, `nombre`) VALUES
-	(1, 'DNI'),
-	(2, 'RUC'),
-	(3, 'CARNET EXTRANJERIA');
-/*!40000 ALTER TABLE `tipo_doc_ide` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
