@@ -5,37 +5,43 @@
     PRODUCTOS
 {% endblock %}
 {% block content %}
-<H2>PRODUCTOS</H2>
-{{catId}}
+<H4>
 <form action="{{ url_for('productos') }}" method="POST">
-    CATEGORIA : <select name="categoria" onchange="this.form.submit()">
-            <option value=0>TODOS</option>
+    PRODUCTOS - CATEGORIA : <select name="categoria" onchange="this.form.submit()">
+        <option value=0>TODOS</option>
         {% for categoria in dataCategoria %}
-            {% if 1 == catId %}
-                <option value="{{ categoria.0 }}" selected>{{ categoria.0 }} - {{ categoria.1 }}</option>
-            {% else %}
-                <option value="{{ categoria.0 }}">{{ categoria.1 }}</option>
+            {% set miselected = '' %}
+            {% if(catId|int == categoria.0|int ) %}
+                {% set miselected = 'selected' %}
             {% endif %}
-            
+        <option value="{{ categoria.0 }}" {{miselected}} >{{ categoria.1 }}</option>
         {% endfor %}
     </select>
 </form>
+</h4>
 <table class="table table-dark table-striped">
     <thead>
       <tr>
-        <th scope="col">ID</th>
         <th scope="col">NOMBRE</th>
         <th scope="col">PRECIO</th>
         <th scope="col">STOCK</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
         {% for d in dataProducto %}
         <tr>
-            <th scope="row"><a href="{{ url_for('productos') }}?pid={{ d.0 }}">{{ d.0 }}</a></th>
-            <td>{{ d.2 }}</td>
+            <th scope="row">{{ d.2 }}</th>
             <td>{{ d.9 }}</td>
             <td>{{ d.10 }}</td>
+            <td><a href="{{ url_for('productos') }}?pid={{ d.0 }}"><button class="btn btn-success">EDITAR</button></a></td>
+            <td>
+                <form action="{{ url_for('eliminarProducto') }}" method="POST">
+                    <input type="hidden" name="eid" value="{{ d.0 }}"/>
+                    <input type="submit" value="ELIMINAR" class="btn btn-danger"/>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     

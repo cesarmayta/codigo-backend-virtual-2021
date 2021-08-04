@@ -5,8 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField,HiddenField
 from wtforms.validators import DataRequired
 
-
-
+#CREAMOS OBJETO DE CLASE FLASK PARA INICIAR LA APLICACIÓN
 app = Flask(__name__)
 
 #Configuracion de BASE DE DATOS
@@ -15,15 +14,17 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'db_sistemapos'
 
+#AGREGAR CONEXIÓN A BASE DE DATOS DE NUESTRA APP
 mysql = MySQL(app)
 
+#VALOR SECRETO PARA FORMULARIOS
 app.secret_key = "mysecretkey"
 
+#AÑADIMOS BOOTSTRAP A NUESTRO APP
 Bootstrap(app)
 
-lstProductos = ['LAPTOP','IMPRESORA HP','SILLA GAMER']
 
-#formularios
+############################# FORMULARIOS ################################
 class frmProducto(FlaskForm):
     id = HiddenField("hdnId")
     categoria = StringField('Categoria :',validators=[DataRequired()])
@@ -37,7 +38,8 @@ class frmProducto(FlaskForm):
     precio = StringField('Precio :',validators=[DataRequired()])
     stock = StringField('Stock :',validators=[DataRequired()])
     submit = SubmitField('Guardar')
-    
+
+################################# RUTAS ###################################
 @app.route('/')
 def index():
     cur = mysql.connection.cursor()
@@ -51,7 +53,7 @@ def index():
     }
     return render_template('index.html',**context)
 
-#@app.route('/productos/<id>')
+
 @app.route('/productos',methods=['GET','POST'])
 def productos():
     print("productos:::::")
@@ -83,7 +85,7 @@ def productos():
     
     print("ID DEL PRODUCTO SELECCIONADO = " + pId)
     #CARGAMOS EL PRODUCTO A EDITAR
-    if pId != "0" and request.method == 'GET':
+    if pId != '0' and request.method == 'GET':
         curProductoEditar = mysql.connection.cursor()
         curProductoEditar.execute("select * from producto where id=%s",(pId))
         dataProductoEditar = curProductoEditar.fetchone()
@@ -124,18 +126,30 @@ def productos():
         precio = frmNuevoProducto.precio.data
         stock = frmNuevoProducto.stock.data
         
-        print("producto a editar:" + str(id))
+        print("producto a editar:" + id)
         
-        if id > 0:
+        if id != '0':
             #actualizar producto
             print("actualizamos")
             curUpdateProducto = mysql.connection.cursor()
+            
             sqlActualizarProducto = "UPDATE producto "
-            sqlActualizarProducto +="SET cat_producto_id='" + str(categoriaId) + "'" 
+            sqlActualizarProducto +="SET cat_producto_id='" + categoriaId + "'" 
             sqlActualizarProducto +=",nombre='" + nombre + "'"
-            sqlActualizarProducto +=" where id=" + str(id) + ""
+            sqlActualizarProducto +=",marca='" + marca + "'"
+            sqlActualizarProducto +=",modelo='" + modelo + "'"
+            sqlActualizarProducto +=",nro_serie='" + serie + "'"
+            sqlActualizarProducto +=",mem_ram='" + ram + "'"
+            sqlActualizarProducto +=",procesador='" + procesador + "'"
+            sqlActualizarProducto +=",disco_duro='" + discoduro + "'"
+            sqlActualizarProducto +=",precio='" + precio + "'"
+            sqlActualizarProducto +=",stock='" + stock + "'"
+            sqlActualizarProducto +=" where id=" + id + ""
+            
             print("SQL UPDATE:" + sqlActualizarProducto)
-            curUpdateProducto.execute(sqlActualizarProducto)
+            
+            #curUpdateProducto.execute(sqlActualizarProducto)
+            curUpdateProducto.execute("UPDATE producto SET cat_producto_id=%s,nombre=%s,marca=%s,modelo=%s,nro_serie=%s,mem_ram=%s,procesador=%s,disco_duro=%s,precio=%s,stock=%s WHERE id=%s",(categoriaId,nombre,marca,modelo,serie,ram,procesador,discoduro,precio,stock,id))
             mysql.connection.commit()
         else:
             #registrar producto
@@ -150,6 +164,19 @@ def productos():
     
     return render_template('productos.html',**context)
 
+#RUTA PARA ELIMINAR PRODUCTOS
+@app.route("/eliminarProducto",methods=['POST'])
+def eliminarProducto():
+    id = request.form['eid']
+    print("ID A ELIMINAR : " + id)
+    
+    curEliminarProducto = mysql.connection.cursor()
+    curEliminarProducto.execute("DELETE FROM producto WHERE id=%s",(id))
+    mysql.connection.commit()
+
+    return redirect(url_for('productos'))
+
+#METODO PRINCIPAL
 if __name__ == '__main__':
     app.run(debug=True,port=5001)
 
