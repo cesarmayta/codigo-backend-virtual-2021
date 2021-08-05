@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,redirect,url_for
 from flask_bootstrap import Bootstrap
 from flask_mysqldb import MySQL
 from flask_wtf import FlaskForm
-from wtforms import StringField,SubmitField,HiddenField
+from wtforms import StringField,SubmitField,HiddenField,SelectField
 from wtforms.validators import DataRequired
 
 #CREAMOS OBJETO DE CLASE FLASK PARA INICIAR LA APLICACIÓN
@@ -26,7 +26,8 @@ Bootstrap(app)
 
 ############################# FORMULARIOS ################################
 class frmProducto(FlaskForm):
-    id = HiddenField("hdnId")
+    
+    id = HiddenField()
     categoria = StringField('Categoria :',validators=[DataRequired()])
     nombre = StringField('Nombre :',validators=[DataRequired()])
     marca = StringField('Marca :',validators=[DataRequired()])
@@ -93,7 +94,7 @@ def productos():
         print("DATOS DEL PRODUCTO A EDITAR :")
         print(dataProductoEditar)
         #llenamos los valores del producto a editar en el formulario
-        frmNuevoProducto.id.data = dataProductoEditar[0]
+        frmNuevoProducto.id.data = pId
         frmNuevoProducto.categoria.data = dataProductoEditar[1]
         frmNuevoProducto.nombre.data = dataProductoEditar[2]
         frmNuevoProducto.marca.data = dataProductoEditar[3]
@@ -128,7 +129,7 @@ def productos():
         
         print("producto a editar:" + id)
         
-        if id != '0':
+        if id != '':
             #actualizar producto
             print("actualizamos")
             curUpdateProducto = mysql.connection.cursor()
