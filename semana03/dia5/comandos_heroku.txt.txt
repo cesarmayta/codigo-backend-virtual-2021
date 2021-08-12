@@ -1,0 +1,6 @@
+heroku login
+heroku create
+git push heroku master
+si no funciona con master prueba con main depende de tu rama principal
+#para ver el consumo mensual de horas de mi dyno
+heroku ps -a <app name>
