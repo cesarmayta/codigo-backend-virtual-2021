@@ -1,0 +1,15 @@
+<h2>{{ titulo }}</h2>
+<ol>
+    <li>Nombre : {{ nombre }}</li>
+    <li>Email  : {{ email }}</li>
+    <li>Perfil : {{ perfil }}</li>
+    <li>Idiomas:
+        <ul>
+            {% for i in idiomas %}
+                <li>{{ i }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>GitHub : {{ github }}</li>
+
+</ol>
