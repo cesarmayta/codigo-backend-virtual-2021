@@ -1,0 +1,15 @@
+1 - CREAR ENTORNO VIRTUAL
+    python -m venv venv
+2 - INSTALAR DJANGO
+    pip install DJANGO
+3 - CREAR PROYECTO
+    django-admin startproject dia2
+4 - CREAR APP
+    entramos a la carpeta de proyecto en donde se encuentra el archivo manage.py
+    y ejecutamos:
+    python manage.py startapp encuesta
+5 - INSTALAR psycopg2
+    pip install psycopg2
+6 - MIGRAR TABLAS
+    python manage.py makemigrations
+    python manage.py migrate

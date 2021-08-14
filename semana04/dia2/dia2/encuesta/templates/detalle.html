@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{ pregunta.pregunta_texto }}</h1>
+
+    <ul>
+        {% for opcion in pregunta.opcion_set.all %}
+            <li>{{ opcion.opcion_texto}} - votos :  {{opcion.votos}}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'encuesta:votar' pregunta.id %}">VOTAR</a>
+</body>
+</html>
