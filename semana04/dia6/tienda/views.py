@@ -10,6 +10,8 @@ from django.contrib.auth import authenticate,login,logout
 from tienda.carrito import Cart
 from tienda.forms import ClienteForm,UsuarioForm
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def index(request):
     lista_productos = Producto.objects.all()
@@ -112,30 +114,46 @@ def carrito(request):
     return render(request,'carrito.html')
 
 def pedido(request):
-    #print(request.user.id)
-    #print(request.session.get("cart"))
-    
-    userPedido = User.objects.get(id=request.user.id)
-    clientePedido = Cliente.objects.get(usuario=userPedido)
-    nuevoPedido = Pedido()
-    nuevoPedido.cliente = clientePedido
-    nuevoPedido.total = 0
-    nuevoPedido.save()
-    
-    pedidoCart = request.session.get("cart")
-    print(pedidoCart)
-    totalPedido = 0
-    for key,value in pedidoCart.items():
-        detalle = PedidoDetalle()
-        detalle.pedido = nuevoPedido
-        detalleProducto = Producto.objects.get(id=value["producto_id"])
-        detalle.producto = detalleProducto
-        detalle.cantidad = int(value["cantidad"])
-        detalle.subtotal = float(value["total"])
-        detalle.save()
-        totalPedido += float(value["total"])
-    
-    nuevoPedido.total = totalPedido
-    nuevoPedido.save()
+    print(request.user.id)
+    if request.user.id is not None:
+        #SELECCIONAR EL USUARIO
+        userPedido = User.objects.get(id=request.user.id)
+        #SELECCIONAR EL CLIENTE
+        clientePedido = Cliente.objects.get(usuario=userPedido)
+        nuevoPedido = Pedido()
+        nuevoPedido.cliente = clientePedido
+        nuevoPedido.total = 0
+        nuevoPedido.save()
         
-    return render(request,'pedido.html')
+        pedidoCart = request.session.get("cart")
+        print(pedidoCart)
+        totalPedido = 0
+        lstDetallePedidos = []
+        for key,value in pedidoCart.items():
+            detalle = PedidoDetalle()
+            detalle.pedido = nuevoPedido
+            detalleProducto = Producto.objects.get(id=value["producto_id"])
+            detalle.producto = detalleProducto
+            detalle.cantidad = int(value["cantidad"])
+            detalle.subtotal = float(value["total"])
+            detalle.save()
+            lstDetallePedidos.append(detalle)
+            totalPedido += float(value["total"])
+        
+        nuevoPedido.total = totalPedido
+        nuevoPedido.save()
+        context = {
+            'pedido' : nuevoPedido,
+            'detalles':lstDetallePedidos
+        }
+        return render(request,'pedido.html',context)
+    else:
+        return redirect('/login')
+    
+@login_required
+def logout_view(request):
+    """Logout a user."""
+    logout(request)
+    return redirect('/login')
+        
+    

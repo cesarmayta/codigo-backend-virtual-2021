@@ -1,7 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container">
-    <h2>Estimado(a) : {{ request.user.first_name  }} - {{ request.user.last_name  }}</h2>
-    <h1>SU PEDIDO FUE REALIZADO CON EXITO</h1>
+    <div class="card">
+        <div class="card-header">
+            PEDIDO FUE REALIZADO CON EXITO
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">CLIENTE : {{ request.user.first_name  }} - {{ request.user.last_name  }} </h5>
+          <p class="card-text">TOTAL PEDIDO : {{ pedido.total }}</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
 </div>
 {% endblock %}
