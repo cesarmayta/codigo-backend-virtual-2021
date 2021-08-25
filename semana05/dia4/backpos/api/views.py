@@ -6,6 +6,25 @@ from .models import Categoria,Mesa,Plato
 #importar serializers
 from .serializers import CategoriaSerializer,MesaSerializer
 
+class Response(Response):
+
+    def __init__(self, data=None, message=None, data_status=None, status=None,
+                template_name=None, headers=None,
+                exception=False, content_type=None):
+
+        data_content = {
+            'ok': True,
+            'content': data
+        }
+        super(Response, self).__init__(
+            data=data_content,
+            status=status,
+            template_name=template_name,
+            headers=headers,
+            exception=exception,
+            content_type=content_type
+        )
+
 class IndexView(APIView):
     
     def get(self,request):
