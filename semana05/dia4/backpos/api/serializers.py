@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Categoria,Plato,Mesa
+from .models import Categoria,Plato,Mesa,Pedido,PedidoPlatos
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,3 +27,22 @@ class CategoriaPlatosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Categoria
         fields = ['categoria_id','categoria_nom','Platos']
+        
+class PedidoPlatosSerializerPOST(serializers.ModelSerializer):
+    class Meta:
+        model = PedidoPlatos
+        fields = ['plato_id','pedidoplato_cant']
+        
+class PedidoSerializerPOST(serializers.ModelSerializer):
+    pedidoplatos = PedidoPlatosSerializerPOST(many=True)
+    class Meta:
+        model = Pedido
+        fields = ['pedido_fech','pedido_nro','pedido_est','usu_id','mesa_id','pedidoplatos']
+        
+    def create(self, validated_data):
+        pedidos_data = validated_data.pop('pedidoplatos')
+        pedido = Pedido.objects.create(**validated_data)
+        for pedido_data in pedidos_data:
+            PedidoPlatos.objects.create(pedido_id=pedido, **pedido_data)
+        return pedido
+        
