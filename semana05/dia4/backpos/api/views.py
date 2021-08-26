@@ -4,7 +4,7 @@ from rest_framework.response import Response
 #importar modelos
 from .models import Categoria,Mesa,Plato
 #importar serializers
-from .serializers import CategoriaSerializer,MesaSerializer
+from .serializers import CategoriaSerializer,MesaSerializer,CategoriaPlatosSerializer
 
 class Response(Response):
 
@@ -44,4 +44,10 @@ class MesaApiView(APIView):
         dataMesa = Mesa.objects.all()
         serializers = MesaSerializer(dataMesa,many=True)
         return Response(serializers.data)
-
+    
+class CategoriaPlatosApiView(APIView):
+    
+    def get(self,request,categoria_id):
+        dataCategoria = Categoria.objects.get(categoria_id=categoria_id)
+        serializers = CategoriaPlatosSerializer(dataCategoria)
+        return Response(serializers.data)

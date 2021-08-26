@@ -78,15 +78,16 @@ WSGI_APPLICATION = 'backpos.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+#'django.db.backends.mysql'
+#'django.db.backends.postgresql'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'dbpos',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': '3306',
     }
 }
 

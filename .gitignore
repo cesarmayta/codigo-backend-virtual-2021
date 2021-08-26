@@ -1,3 +1,6 @@
 venv/
 venv32/
 __pycache__
+*.png
+*.jpg
+*.gif
