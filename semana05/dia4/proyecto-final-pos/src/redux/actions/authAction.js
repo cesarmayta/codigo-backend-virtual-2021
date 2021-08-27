@@ -20,10 +20,12 @@ export const iniciarSesionAction = (correo, password) => {
 	return async (dispatch) => {
 		dispatch(inicioCargandoLogin());
 
-		const endpoint = `${URL_BACKEND}/login`;
+		const endpoint = `${URL_BACKEND}/login/`;
+		console.log(correo);
+		console.log(password);
 		const response = await axios.post(
 			endpoint,
-			JSON.stringify({ correo: correo, password: password }),
+			JSON.stringify({ username: correo, password: password }),
 			{
 				headers: {
 					'Content-type': 'application/json'
@@ -32,7 +34,7 @@ export const iniciarSesionAction = (correo, password) => {
 		);
 		if (response.status === 200) {
 			let { token } = response.data;
-			localStorage.setItem('token', token);
+			localStorage.setItem('access', token);
 			let payload = token.split('.')[1];
 			let payloadDecoded = atob(payload);
 			let payloadJSON = JSON.parse(payloadDecoded);

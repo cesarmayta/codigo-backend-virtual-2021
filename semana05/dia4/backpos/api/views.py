@@ -4,7 +4,7 @@ from rest_framework.response import Response
 #importar modelos
 from .models import Categoria,Mesa,Plato
 #importar serializers
-from .serializers import CategoriaSerializer,MesaSerializer,CategoriaPlatosSerializer,PedidoPlatosSerializerPOST
+from .serializers import CategoriaSerializer,MesaSerializer,CategoriaPlatosSerializer,PedidoSerializerPOST
 
 class Response(Response):
 
@@ -55,7 +55,7 @@ class CategoriaPlatosApiView(APIView):
 class PedidoApiView(APIView):
     
     def post(self,request):
-        serializer = PedidoPlatosSerializerPOST(data=request.data)
+        serializer = PedidoSerializerPOST(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         
