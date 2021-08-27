@@ -2,9 +2,22 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 #importar modelos
-from .models import Categoria,Mesa,Plato
+from .models import Categoria,Mesa,Plato,Pedido
 #importar serializers
-from .serializers import CategoriaSerializer,MesaSerializer,CategoriaPlatosSerializer,PedidoSerializerPOST
+from .serializers import (
+    CategoriaSerializer,
+    MesaSerializer,
+    CategoriaPlatosSerializer,
+    PedidoSerializerPOST,
+    TokenObtainPairSerializer,
+    PedidoSerializerGET
+    ) 
+
+from rest_framework_simplejwt.views import TokenViewBase
+
+class TokenObtainPairView(TokenViewBase):
+
+    serializer_class = TokenObtainPairSerializer
 
 class Response(Response):
 
@@ -60,3 +73,9 @@ class PedidoApiView(APIView):
         serializer.save()
         
         return Response(serializer.data)
+    
+    def get(self,request):
+        dataPedido = Pedido.objects.all()
+        serializer = PedidoSerializerGET(dataPedido,many=True)
+        return Response(serializer.data)
+        

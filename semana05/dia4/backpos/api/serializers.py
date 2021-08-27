@@ -1,6 +1,10 @@
 from rest_framework import serializers
 
+
+
 from .models import Categoria,Plato,Mesa,Pedido,PedidoPlatos
+
+
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,7 +36,7 @@ class PedidoPlatosSerializerPOST(serializers.ModelSerializer):
     class Meta:
         model = PedidoPlatos
         fields = ['plato_id','pedidoplato_cant']
-        
+            
 class PedidoSerializerPOST(serializers.ModelSerializer):
     pedidoplatos = PedidoPlatosSerializerPOST(many=True)
     class Meta:
@@ -45,4 +49,44 @@ class PedidoSerializerPOST(serializers.ModelSerializer):
         for pedido_data in pedidos_data:
             PedidoPlatos.objects.create(pedido_id=pedido, **pedido_data)
         return pedido
+
+from rest_framework_simplejwt.serializers import TokenObtainSerializer,RefreshToken,api_settings,update_last_login
+
+class TokenObtainPairSerializer(TokenObtainSerializer):
+    @classmethod
+    def get_token(cls, user):
+        return RefreshToken.for_user(user)
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        refresh = self.get_token(self.user)
+
+        data['refresh'] = str(refresh)
+        data['token'] = str(refresh.access_token)
+
+        if api_settings.UPDATE_LAST_LOGIN:
+            update_last_login(None, self.user)
+
+        return data
+    
+from django.contrib.auth.models import User
+
+class UsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','email','first_name','last_name','is_superuser']
+    
+class PedidoPlatosSerializerGET(serializers.ModelSerializer):
+    class Meta:
+        model = PedidoPlatos
+        fields = ['pedidoplato_id','pedidoplato_cant','plato_id','pedido_id']
+        
+class PedidoSerializerGET(serializers.ModelSerializer):
+    pedidoplatos = PedidoPlatosSerializerGET(many=True,read_only=True)
+    #Mesa = MesaSerializer()
+    #Usuario = UsuarioSerializer()
+    class Meta:
+        model = Pedido
+        fields = ['pedido_id','pedido_fech','pedido_nro','pedido_est','usu_id','mesa_id','pedidoplatos']
         

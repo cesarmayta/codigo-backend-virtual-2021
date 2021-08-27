@@ -21,7 +21,7 @@ export const getPedidosDB = () => {
 
 		dispatch({
 			type: SET_PEDIDOS_DB,
-			payload: response.data.pedidos
+			payload: response.data.content
 		});
 
 		dispatch(setFinCargandoPedidosDB());

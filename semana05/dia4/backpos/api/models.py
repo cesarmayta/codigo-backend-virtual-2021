@@ -33,9 +33,9 @@ class Pedido(models.Model):
     pedido_fech = models.DateTimeField(null=True,verbose_name="Fecha")
     pedido_nro = models.CharField(max_length=100,default='',verbose_name="Nro Pedido")
     pedido_est = models.CharField(max_length=100,default='pagado',verbose_name="Estado")
-    usu_id = models.ForeignKey(User,related_name='Pedidos',to_field="id",on_delete=models.RESTRICT,
+    usu_id = models.ForeignKey(User,to_field="id",on_delete=models.RESTRICT,
                                      db_column='usu_id',verbose_name="Usuario")
-    mesa_id = models.ForeignKey(Mesa,related_name='Pedidos',to_field="mesa_id",on_delete=models.RESTRICT,
+    mesa_id = models.ForeignKey(Mesa,to_field="mesa_id",on_delete=models.RESTRICT,
                                     db_column='mesa_id',verbose_name="Mesa")
     
 class PedidoPlatos(models.Model):
