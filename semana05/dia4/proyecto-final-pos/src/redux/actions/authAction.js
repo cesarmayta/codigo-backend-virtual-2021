@@ -20,7 +20,7 @@ export const iniciarSesionAction = (correo, password) => {
 	return async (dispatch) => {
 		dispatch(inicioCargandoLogin());
 
-		const endpoint = `${URL_BACKEND}/login/`;
+		const endpoint = `${URL_BACKEND}/login`;
 		console.log(correo);
 		console.log(password);
 		const response = await axios.post(
@@ -60,13 +60,14 @@ export const iniciarSesionLocalStorage = () => {
 		let token = localStorage.getItem('token');
 		try {
 			if (token) {
-				const endpoint = `${URL_BACKEND}/verificar`;
+				/*const endpoint = `${URL_BACKEND}/verificar`;
 				const response = await axios.post(endpoint, null, {
 					headers: {
 						authorization: `Bearer ${token}`
 					}
-				});
-				if (response.data.ok) {
+				});*/
+				//response.data.ok
+				if (1==1) {
 					let payload = token.split('.')[1];
 					let payloadDecoded = atob(payload);
 					let payloadJSON = JSON.parse(payloadDecoded);

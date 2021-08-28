@@ -75,7 +75,17 @@ from django.contrib.auth.models import User
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','email','first_name','last_name','is_superuser']
+        fields = ''
+        
+    def to_representation(self,instance):
+        representation = super().to_representation(instance)
+        representation['usu_id'] = instance.id
+        representation['usu_email'] = instance.email
+        representation['usu_nom'] = instance.first_name
+        representation['usu_ape'] = instance.last_name
+        representation['usu_tipo'] = 'admin'
+        
+        return representation
     
 class PedidoPlatosSerializerGET(serializers.ModelSerializer):
     class Meta:
@@ -84,9 +94,26 @@ class PedidoPlatosSerializerGET(serializers.ModelSerializer):
         
 class PedidoSerializerGET(serializers.ModelSerializer):
     pedidoplatos = PedidoPlatosSerializerGET(many=True,read_only=True)
-    #Mesa = MesaSerializer()
-    #Usuario = UsuarioSerializer()
     class Meta:
         model = Pedido
         fields = ['pedido_id','pedido_fech','pedido_nro','pedido_est','usu_id','mesa_id','pedidoplatos']
         
+    def to_representation(self,instance):
+        representation = super().to_representation(instance)
+        serializersMesa = MesaSerializer(instance.mesa_id)
+        representation['Mesa'] = serializersMesa.data
+        serializersUsuario = UsuarioSerializer(instance.usu_id)
+        representation['Usuario'] = serializersUsuario.data
+        
+        return representation
+        
+
+class PlatoSerializerGET(serializers.ModelSerializer):
+    class Meta:
+        model = Plato
+        fields = '__all__'
+    
+    def to_representation(self,instance):
+        representation = super().to_representation(instance)
+        representation['plato_img'] = 'http://localhost:8000' + instance.plato_img.url
+        return representation

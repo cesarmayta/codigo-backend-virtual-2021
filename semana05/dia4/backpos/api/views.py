@@ -9,6 +9,7 @@ from .serializers import (
     MesaSerializer,
     CategoriaPlatosSerializer,
     PedidoSerializerPOST,
+    PlatoSerializerGET,
     TokenObtainPairSerializer,
     PedidoSerializerGET
     ) 
@@ -28,6 +29,25 @@ class Response(Response):
         data_content = {
             'ok': True,
             'content': data
+        }
+        super(Response, self).__init__(
+            data=data_content,
+            status=status,
+            template_name=template_name,
+            headers=headers,
+            exception=exception,
+            content_type=content_type
+        )
+        
+class ResponsePedidos(Response):
+
+    def __init__(self, data=None, message=None, data_status=None, status=None,
+                template_name=None, headers=None,
+                exception=False, content_type=None):
+
+        data_content = {
+            'ok': True,
+            'pedidos': data
         }
         super(Response, self).__init__(
             data=data_content,
@@ -77,5 +97,12 @@ class PedidoApiView(APIView):
     def get(self,request):
         dataPedido = Pedido.objects.all()
         serializer = PedidoSerializerGET(dataPedido,many=True)
+        return ResponsePedidos(serializer.data)
+
+class PlatoApiView(APIView):
+    
+    def get(self,request):
+        dataPlato = Plato.objects.all()
+        serializer = PlatoSerializerGET(dataPlato,many=True)
         return Response(serializer.data)
         

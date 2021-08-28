@@ -29,7 +29,7 @@ const AdminDashboard = () => {
 		});
 		precios = pedidosDB.map((objPedidoDB) => {
 			let total = 0;
-			objPedidoDB.PedidoPlatos.forEach((objPedidoPlato) => {
+			objPedidoDB.pedidoplatos.forEach((objPedidoPlato) => {
 				let objPlato = platos.find(
 					(plato) => plato.plato_id === objPedidoPlato.plato_id
 				);
