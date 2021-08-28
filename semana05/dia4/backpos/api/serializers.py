@@ -107,13 +107,3 @@ class PedidoSerializerGET(serializers.ModelSerializer):
         
         return representation
         
-
-class PlatoSerializerGET(serializers.ModelSerializer):
-    class Meta:
-        model = Plato
-        fields = '__all__'
-    
-    def to_representation(self,instance):
-        representation = super().to_representation(instance)
-        representation['plato_img'] = 'http://localhost:8000' + instance.plato_img.url
-        return representation

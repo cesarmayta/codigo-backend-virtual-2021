@@ -9,7 +9,7 @@ from .serializers import (
     MesaSerializer,
     CategoriaPlatosSerializer,
     PedidoSerializerPOST,
-    PlatoSerializerGET,
+    PlatoSerializer,
     TokenObtainPairSerializer,
     PedidoSerializerGET
     ) 
@@ -103,6 +103,6 @@ class PlatoApiView(APIView):
     
     def get(self,request):
         dataPlato = Plato.objects.all()
-        serializer = PlatoSerializerGET(dataPlato,many=True)
+        serializer = PlatoSerializer(dataPlato,many=True)
         return Response(serializer.data)
         
