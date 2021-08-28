@@ -11,7 +11,15 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+#### IMPORTACIONES PARA PRODUCCION
+import os
+import dj_database_url
+from decouple import config
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+######################################
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +28,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n9gwuc+-)4^whj*!_jm#%by506-p(a6tvfjh6agd@tek(ezaj='
-
+#SECRET_KEY = ''
+SECRET_KEY = config('SECRET_KEY')  
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,6 +52,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
+    #### PARA IMAGENES EN HEROKU#####
+    'cloudinary',
 ]
 
 X_FRAME_OPTIONS='SAMEORIGIN' # only if django version >= 3.0
@@ -67,6 +77,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ##### PARA ARCHIVOS ESTATICOS EN HEROKU
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'backpos.urls'
@@ -95,14 +107,9 @@ WSGI_APPLICATION = 'backpos.wsgi.application'
 #'django.db.backends.mysql'
 #'django.db.backends.postgresql'
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbpos',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 
@@ -142,16 +149,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+#STATIC_URL = '/static/'
+########### PARA ARCHIVO ESTATICOS EN HEROKU ######
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+#####################################################
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #para las imagenes
-import os
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-MEDIA_URL = '/media/'
+cloudinary.config(
+  cloud_name = config('CLOUDINARY_CLOUD_NAME'),  
+  api_key = config('CLOUDINARY_API_KEY'),  
+  api_secret = config('CLOUDINARY_API_SECRET')  
+)
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

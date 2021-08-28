@@ -5,7 +5,7 @@ import { URL_BACKEND } from '../environments/environments';
 
 export const postPagarPedido = async (objPedido, mesaId) => {
 	let objPedidoBackend = {
-		usu_id: 2,
+		usu_id: 1,
 		mesa_id: mesaId,
 		pedido_est: 'pagado',
 		pedido_nro: uuidv4(),
