@@ -1,0 +1,5 @@
+crear las siguientes variables de entorno
+
+export FLASK_APP=api
+export FLASK_ENV=development
+export DB_URI="mongodb://127.0.0.1:27017"
