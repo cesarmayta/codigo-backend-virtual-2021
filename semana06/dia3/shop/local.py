@@ -31,9 +31,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ye)ravcmni-yfnff7(ij=o9u^lx)gn3bfc4u!@llz0_6z3_y(z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -56,8 +56,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
 ]
 
 ROOT_URLCONF = 'shop.urls'
@@ -83,7 +82,23 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+#django.db.backends.mysql
+#django.db.backends.postgresql
+#postgres://
+# USUARIO cxrnyufuiaunsn
+# PASSWORD 1e28752a2c5ee9e7126c44a6cab2628cc7d96006271190c1f5fda734a94a332a
+# HOST ec2-44-194-112-166.compute-1.amazonaws.com
+# BASE DATOS d7bklj0h3qfqsj
+#DATABASES = {
+ #   'default': {
+  #      'ENGINE': 'django.db.backends.postgresql',
+   #     'NAME': 'tienda',
+    #    'USER': 'postgres',
+     #   'PASSWORD': 'root',
+      #  'HOST': 'localhost',
+       # 'PORT': '5432',
+    #}
+#}
 DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
@@ -128,23 +143,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'
 
 cloudinary.config( 
   cloud_name = "solinsoft", 
   api_key = "599129267623282", 
   api_secret = "AmZ-QOj_bbnviDwa3UBJBY-HloY" 
 )
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
