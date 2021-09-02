@@ -1,0 +1,20 @@
+{
+    "nombre":"HTML5 Y CSS3",
+    "modulos":[
+        {
+            "nro":1,
+            "nombre":"FUNDAMENTOS DE HTML5",
+            "video":"URL1"
+        },
+        {
+            "nro":2,
+            "nombre":"ESTILOS CON CSS3",
+            "video":"URL2"
+        },
+        {
+            "nro":3,
+            "nombre":"BOOTSTRAP",
+            "video":"URL3"
+        }
+    ]
+}
