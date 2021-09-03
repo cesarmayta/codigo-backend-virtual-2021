@@ -15,7 +15,7 @@ class Cart:
                 "cantidad" : qty,
                 "precio": str(producto.precio),
                 "imagen" : producto.imagen.url,
-                "total" : str(qty * producto.precio)
+                "total" : str(producto.precio)
                 }
         else:
             for key,value in self.cart.items():

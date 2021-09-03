@@ -99,10 +99,21 @@ WSGI_APPLICATION = 'shop.wsgi.application'
        # 'PORT': '5432',
     #}
 #}
+#DATABASES = {
+ #     'default': {
+  #        'ENGINE': 'djongo',
+   #       'NAME': 'tienda',
+    #  }
+  #}
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'tienda',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': 'mongodb+srv://sysadmin:codigo2021@cluster0.bmn6a.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+            }  
+        }
 }
 
 
@@ -153,8 +164,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
-cloudinary.config( 
-  cloud_name = "solinsoft", 
-  api_key = "599129267623282", 
-  api_secret = "AmZ-QOj_bbnviDwa3UBJBY-HloY" 
+cloudinary.config(
+  cloud_name = 'dd9ad40qm',  
+  api_key = '629175225521913',  
+  api_secret = 'GhaZ0Vbc7DnD4ACZ0IF6ok-30oM'  
 )
