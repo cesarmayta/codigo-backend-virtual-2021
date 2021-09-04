@@ -12,6 +12,9 @@ from tienda.forms import ClienteForm,UsuarioForm
 
 from django.contrib.auth.decorators import login_required
 
+#### PAYPAL ########
+from paypal.standard.forms import PayPalPaymentsForm
+
 # Create your views here.
 def index(request):
     lista_productos = Producto.objects.all()
@@ -119,34 +122,51 @@ def pedido(request):
         #SELECCIONAR EL USUARIO
         userPedido = User.objects.get(id=request.user.id)
         #SELECCIONAR EL CLIENTE
-        clientePedido = Cliente.objects.get(usuario=userPedido)
-        nuevoPedido = Pedido()
-        nuevoPedido.cliente = clientePedido
-        nuevoPedido.total = 0
-        nuevoPedido.save()
-        
-        pedidoCart = request.session.get("cart")
-        print(pedidoCart)
-        totalPedido = 0
-        lstDetallePedidos = []
-        for key,value in pedidoCart.items():
-            detalle = PedidoDetalle()
-            detalle.pedido = nuevoPedido
-            detalleProducto = Producto.objects.get(id=value["producto_id"])
-            detalle.producto = detalleProducto
-            detalle.cantidad = int(value["cantidad"])
-            detalle.subtotal = float(value["total"])
-            detalle.save()
-            lstDetallePedidos.append(detalle)
-            totalPedido += float(value["total"])
-        
-        nuevoPedido.total = totalPedido
-        nuevoPedido.save()
-        context = {
-            'pedido' : nuevoPedido,
-            'detalles':lstDetallePedidos
-        }
-        return render(request,'pedido.html',context)
+        try:
+            clientePedido = Cliente.objects.get(usuario=userPedido)
+            
+            nuevoPedido = Pedido()
+            nuevoPedido.cliente = clientePedido
+            nuevoPedido.total = 0
+            nuevoPedido.save()
+            
+            pedidoCart = request.session.get("cart")
+            print(pedidoCart)
+            totalPedido = 0
+            lstDetallePedidos = []
+            for key,value in pedidoCart.items():
+                detalle = PedidoDetalle()
+                detalle.pedido = nuevoPedido
+                detalleProducto = Producto.objects.get(id=value["producto_id"])
+                detalle.producto = detalleProducto
+                detalle.cantidad = int(value["cantidad"])
+                detalle.subtotal = float(value["total"])
+                detalle.save()
+                lstDetallePedidos.append(detalle)
+                totalPedido += float(value["total"])
+            
+            nuevoPedido.total = totalPedido
+            nuevoPedido.save()
+            ###### PARA PAGO PAYPAL####
+            request.session['paypal_pid'] = nuevoPedido.id
+            host = request.get_host()
+            paypal_datos = {
+                'business': settings.PAYPAL_RECEIVER_EMAIL,
+                'amount': nuevoPedido.total,
+                'item_name': 'PEDIDO #' + str(nuevoPedido.id),
+                'invoice': str(nuevoPedido.id),
+                'notify_url': 'http://' + host + '/' + 'paypal-ipn',
+                'return_url':'http://' + host + '/pagoexitosopaypal'
+            }
+            formPedidoPaypal = PayPalPaymentsForm(initial=paypal_datos)
+            context = {
+                'pedido' : nuevoPedido,
+                'detalles':lstDetallePedidos,
+                'formpaypal': formPedidoPaypal
+            }
+            return render(request,'pedido.html',context)
+        except:
+            return redirect('/login')
     else:
         return redirect('/login')
     
@@ -155,5 +175,17 @@ def logout_view(request):
     """Logout a user."""
     logout(request)
     return redirect('/login')
-        
+
+################# PAYPAL ######################3
+def pago_exitoso_paypal(request):
+    pedido_id = request.session.get('paypal_pid')
+    pedido = Pedido.objects.get(id=pedido_id)
+    pedido.estado = '1'
+    pedido.save()
+    context = {
+     'pedido': pedido   
+    }
+    return render(request,'pagoexitosopaypal.html',context)
+    
+            
     

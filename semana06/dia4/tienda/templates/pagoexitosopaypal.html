@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            PAGO EXITOSO- GRACIAS POR TU PEDIDO
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">ESTIMADO(a)  {{ request.user.first_name  }} - {{ request.user.last_name  }} </h5>
+          <p class="card-text">SU PEDIDO POR  : {{ pedido.total }} FUE PROCESADO CON EXITO</p>
+        </div>
+      </div>
+</div>
+{% endblock %}

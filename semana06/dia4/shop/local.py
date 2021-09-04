@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudinary',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -89,21 +90,17 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 # PASSWORD 1e28752a2c5ee9e7126c44a6cab2628cc7d96006271190c1f5fda734a94a332a
 # HOST ec2-44-194-112-166.compute-1.amazonaws.com
 # BASE DATOS d7bklj0h3qfqsj
-#DATABASES = {
- #   'default': {
-  #      'ENGINE': 'django.db.backends.postgresql',
-   #     'NAME': 'tienda',
-    #    'USER': 'postgres',
-     #   'PASSWORD': 'root',
-      #  'HOST': 'localhost',
-       # 'PORT': '5432',
-    #}
-#}
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tiendatech',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
+
 
 
 
@@ -158,3 +155,7 @@ cloudinary.config(
   api_key = "599129267623282", 
   api_secret = "AmZ-QOj_bbnviDwa3UBJBY-HloY" 
 )
+
+PAYPAL_RECEIVER_EMAIL = 'sb-nplzm7241713@business.example.com'
+
+PAYPAL_TEST = True
