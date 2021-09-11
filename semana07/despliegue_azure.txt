@@ -40,9 +40,9 @@ source venv/bin/activate
 4 - python3 manage.py migrate
 5 - python3 manage.py createsuperuser
 6 - python3 manage.py runserver 0.0.0.0:8000
-7 - gunicorn --bind 0.0.0.0:8000 sistema.wsgi
+7 - gunicorn --bind 0.0.0.0:8000 app.wsgi
 8 - deactivate
-
+9 - configurar socket 
 
 
 
