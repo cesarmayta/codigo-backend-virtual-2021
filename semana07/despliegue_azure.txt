@@ -1,0 +1,48 @@
+codigo
+Codigo2021##
+13.68.196.19
+
+pasos iniciales en ubuntu
+1 - sudo apt update
+2 - sudo apt install python3-pip python3-dev python3-venv
+3 - python3 -m venv venv
+4 - source venv/bin/activate
+5 - pip install django
+6 - django-admin startproject prueba
+7 - agregar a ALLOW_HOST mi ip publica
+	ALLOWED_HOSTS = ['13.68.196.19']
+8 - python3 manage.py runserver 0.0.0.0:80000
+
+--- CREACION DE BASE DE DATOS Y USUARIOS --
+
+1 - sudo apt install python3-pip python3-dev libpq-dev postgresql postgresql-contrib nginx curl
+
+2 - sudo -u postgres psql
+
+3 - CREATE DATABASE sistema;
+
+4 - crate user sysadmin with password 'codigo2021'
+
+5 -
+ALTER ROLE sysadmin SET client_encoding TO 'utf8';
+ALTER ROLE sysadmin SET default_transaction_isolation TO 'read committed';
+ALTER ROLE sysadmin SET timezone TO 'UTC';
+6 - 
+GRANT ALL PRIVILEGES ON DATABASE sistema TO sysadmin;
+
+ -- DESPLIEGUE DE PROYECTO EN DJANGO
+primero subir archivos del proyecto sistema a la carpeta home/codigo por winscp
+
+1- activar entorno virtual
+source venv/bin/activate
+2 - pip install -r requirements.txt
+3 - cd sistema(ingresamos a directorio sistema)
+4 - python3 manage.py migrate
+5 - python3 manage.py createsuperuser
+6 - python3 manage.py runserver 0.0.0.0:8000
+7 - gunicorn --bind 0.0.0.0:8000 sistema.wsgi
+8 - deactivate
+
+
+
+
