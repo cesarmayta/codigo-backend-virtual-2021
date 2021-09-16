@@ -15,7 +15,7 @@ function router(req,res){
         case '/api':
             //res.writeHead(201, {'Content-Type':'application/json'});
             res.setHeader('Content-Type', 'application/json');
-            res.write(JSON.stringify({"nombre":"cesar","email":"cesarmayta@gmail.com"}));
+            res.write(JSON.stringify({nombre:1,email:2}));
             res.end();
         default:
             res.write('<H1>BIENVENIDO A MI SITIO WEB NODEJS</H1>')
