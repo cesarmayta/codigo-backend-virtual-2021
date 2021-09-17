@@ -1,10 +1,11 @@
-const SqlServerLib = require('./lib/sqlserver');
+const express = require('express');
+const app = express();
 
-async function prueba(){
-    sqlsrv = new SqlServerLib();
-    const sqlAlumnos = "select top 1 * from alumnos";
-    const result = await sqlsrv.querySql(sqlAlumnos);
-    console.log(result.recordsets);
-}
+const {config} = require('./config/index');
+const alumnosApi = require('./routes/alumnos');
 
-prueba();
+alumnosApi(app);
+
+app.listen(config.port,function(){
+    console.log('SERVIDOR CORRIENDO EN PUERTO : ',config.port);
+})
