@@ -1,0 +1,19 @@
+{
+  "name": "dia3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "set DEBUG=app:*&& nodemon index"
+  },
+  "keywords": [],
+  "author": "cesar mayta",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "mssql": "^7.2.1"
+  }
+}
