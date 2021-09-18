@@ -1,0 +1,29 @@
+{
+  "name": "plantillaexpressjs",
+  "version": "1.0.0",
+  "description": "Plantilla para proyectos con expressjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "set DEBUG=app:*&& nodemon index",
+    "start": "set NODE_ENV=production node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cesarmayta/plantillaexpressjs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cesarmayta/plantillaexpressjs/issues"
+  },
+  "homepage": "https://github.com/cesarmayta/plantillaexpressjs#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
