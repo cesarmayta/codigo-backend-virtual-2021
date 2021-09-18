@@ -4,6 +4,8 @@ const app = express();
 const { config } = require('./config/index');
 const alumnosApi = require('./routes/alumnos');
 
+//body parser
+app.use(express.json());
 
 alumnosApi(app);
 
