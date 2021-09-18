@@ -1,6 +1,7 @@
 const express = require('express');
 const AlumnosService = require('../services/alumnos');
 
+
 function alumnosApi(app){
     //creamos la ruta principal para alumnos
     const router = express.Router();
@@ -39,6 +40,13 @@ function alumnosApi(app){
         //const {nombre,email,pais} = req.body;
         const {body: alumno} = req;
         console.log(alumno);
+
+        /*if(alumno.nombre == null || alumno.email == null || alumno.pais == null){
+            res.status(400).json({
+                status:false,
+                content:"debe llenar los datos"
+            })
+        }*/
 
         try{
             const crearAlumno = await alumnosService.create({alumno});
