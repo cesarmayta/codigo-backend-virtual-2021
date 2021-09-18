@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 
 const { config } = require('./config/index');
+const alumnosApi = require('./routes/alumnos');
+
+
+alumnosApi(app);
 
 
 
