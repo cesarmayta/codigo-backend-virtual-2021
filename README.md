@@ -12,6 +12,11 @@ SEMANA 03 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/seman
 SEMANA 04 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/semana04</br>
 SEMANA 05 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/semana05</br>
 SEMANA 06 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/semana06</br>
+SEMANA 07 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/semana07</br>
+SEMANA 08 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/semana08</br>
+SEMANA 09 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/semana09</br>
+SEMANA 10 : https://github.com/cesarmayta/codigo-backend-virtual-2021/tree/semana10</br>
+
 
 # Instrucciones
 
