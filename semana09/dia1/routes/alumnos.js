@@ -2,6 +2,10 @@ const express = require('express');
 const { restart } = require('nodemon');
 const AlumnosService = require('../services/alumnos');
 
+//para validaciones
+const {createAlumnoSchema,updateAlumnoSchema} = require('../utils/schemas/alumnos');
+const validationHandler = require('../utils/middleware/validationHandler');
+
 function alumnosApi(app){
     const router = express.Router();
     app.use('/alumnos',router);
@@ -24,7 +28,7 @@ function alumnosApi(app){
         }
     });
 
-    router.post('/',async function(req,res,next){
+    router.post('/',validationHandler(createAlumnoSchema),async function(req,res,next){
         const { body: alumno} = req;
         console.log(alumno);
 
@@ -41,7 +45,7 @@ function alumnosApi(app){
         }
     });
 
-    router.put('/:alumnoId',async function(req,res,next){
+    router.put('/:alumnoId',validationHandler(updateAlumnoSchema),async function(req,res,next){
         const { alumnoId } = req.params;
         const { body: alumno} = req;
         console.log(alumno);
