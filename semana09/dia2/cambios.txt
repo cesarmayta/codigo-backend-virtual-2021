@@ -1,0 +1,12 @@
+1er cambio
+linea 53
+<input type="text" id="username" value=""/>
+
+linea 483
+<div class="receiver" id="output">
+
+linea 513
+<textarea class="form-control" rows="1" id="message"></textarea>
+
+linea 519
+<button id="send" class="fa fa-send fa-2x" aria-hidden="true"></button>
