@@ -9,13 +9,13 @@ let output = document.getElementById('output');
 
 btn.addEventListener('click',function(){
     console.log(username.value,message.value);
-    socket.emit('chat:message',{
+    socket.emit('mensajecliente',{
         message:message.value,
         username:username.value
     });
 });
 
-socket.on('chat:message',function(data){
+socket.on('mensajeservidor',function(data){
     console.log(data);
     output.innerHTML += `
     <div class="message-text">
