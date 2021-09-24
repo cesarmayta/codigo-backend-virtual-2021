@@ -32,9 +32,9 @@ class DetallesCarro extends Component {
             <div style={styles.DetallesCarro}>
                 <ul style={styles.ul}>
                     {carro.map(x =>
-                        <li style={styles.producto} key={x.name}>
-                            <img alt={x.name} src={x.img} width='50' height='32'/>
-                            {x.name} <span>{x.cantidad}</span>
+                        <li style={styles.producto} key={x.nombre}>
+                            <img alt={x.nombre} src={x.imagen} width='50' height='32'/>
+                            {x.nombre} <span>{x.cantidad}</span>
                         </li>
                     )}
                 </ul>

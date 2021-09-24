@@ -31,8 +31,8 @@ class App extends Component {
 
   agregarAlCarro = (producto) => {
     const { carro } = this.state
-    if(carro.find(x => x.name === producto.name)) {
-      const newCarro = carro.map(x => x.name === producto.name
+    if(carro.find(x => x.nombre === producto.nombre)) {
+      const newCarro = carro.map(x => x.nombre === producto.nombre
         ? ({
           ...x,
           cantidad: x.cantidad + 1
