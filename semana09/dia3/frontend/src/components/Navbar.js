@@ -1,6 +1,7 @@
 import { Component } from "react"
 import Logo from './Logo'
 import Carro from './Carro'
+import GoogleLogin from 'react-google-login';
 
 const styles={
     navbar:{
@@ -16,12 +17,37 @@ const styles={
     }
 }
 
+const responseGoogle = (response) => {
+    console.log(response);
+  }
+
+const handleLogin = async googleData => {
+    const res = await fetch("http://localhost:5000/validargoogletoken", {
+        method: "POST",
+        body: JSON.stringify({
+        token: googleData.tokenId
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const data = await res.json()
+    // store returned user somehow
+}
+
 class Navbar extends Component {
     render(){
         const { carro,esCarroVisible,mostrarCarro } = this.props
         return (
             <nav style={styles.navbar}>
                 <Logo />
+                <GoogleLogin
+                    clientId="879157433796-0l5v66qccfk28n3o7ks0j0qfm4qs9srh.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={handleLogin}
+                    onFailure={handleLogin}
+                    cookiePolicy={'single_host_origin'}
+                />
                 <Carro 
                 carro={carro}
                 esCarroVisible={esCarroVisible}
