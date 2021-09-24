@@ -12,8 +12,6 @@ const cookieSession = require('cookie-session')
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-app.use(cors())
-
 app.use(cookieSession({
   name: 'tuto-session',
   keys: ['key1', 'key2']
@@ -73,7 +71,7 @@ app.post("/validargoogletoken", async (req, res) => {
 })
 /*********************************************************************************************/
 
-
+app.use(cors())
 
 productosApi(app)
 
