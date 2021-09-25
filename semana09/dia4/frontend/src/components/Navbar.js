@@ -23,7 +23,7 @@ const responseGoogle = (response) => {
 
 const handleLogin = async googleData => {
     console.log(googleData)
-    const res = await fetch("http://localhost:5000/validargoogletoken", {
+    const res = await fetch("http://localhost:5000/clientes/login", {
         method: "POST",
         body: JSON.stringify({
         token: googleData.tokenId
@@ -33,6 +33,7 @@ const handleLogin = async googleData => {
       }
     })
     const data = await res.json()
+    console.log(data)
     // store returned user somehow
 }
 
@@ -44,7 +45,7 @@ class Navbar extends Component {
                 <Logo />
                 <GoogleLogin
                     clientId="879157433796-0l5v66qccfk28n3o7ks0j0qfm4qs9srh.apps.googleusercontent.com"
-                    buttonText="Login"
+                    buttonText="ACCEDER CON GOOGLE"
                     onSuccess={handleLogin}
                     onFailure={handleLogin}
                     cookiePolicy={'single_host_origin'}

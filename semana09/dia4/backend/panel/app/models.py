@@ -21,3 +21,12 @@ class Producto(models.Model):
     def __str__(self):
         return self.nombre
     
+class Cliente(models.Model):
+    _id = models.ObjectIdField()
+    nombre = models.CharField(max_length=200,default='')
+    email = models.CharField(max_length=100,default='')
+    foto = models.CharField(max_length=200,default='')
+    
+    def __str__(self):
+        return self.nombre
+    
