@@ -72,8 +72,22 @@ class App extends Component {
     })
   }
 
-  registrarPedido = (e) => {
-    console.log(e)
+  registrarPedido = (event) => {
+    event.preventDefault()
+    const { carro } = this.state
+    console.log("registrando pedido...")
+    let datos = {
+      cliente:{
+          nombre : this.state.usuario,
+          email : this.state.email
+      },
+      productos: carro,
+      total : 20
+    }
+    axios.post('http://localhost:5000/pedidos',datos)
+    .then(res => {
+        console.log(res.data.status)
+    })
     
   }
 
@@ -101,9 +115,12 @@ class App extends Component {
           <hr />
           <h1>PEDIDO</h1>
           <form onSubmit={this.registrarPedido}>
-            <p>Nombre : <input type="text" value={this.state.usuario}/>  Email : <input type="text" value={this.state.email} /></p>
+            <p>
+              Nombre : <input type="text" value={this.state.usuario}/> 
+              Email : <input type="text" value={this.state.email} />
+              <input type="submit"/>
+            </p>
           </form>
-          
         </Layout>
       </div>
     )
