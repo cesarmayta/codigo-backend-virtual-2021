@@ -1,0 +1,107 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API de tienda virtual para el bootcamp fullstack g8",
+    "version": "1.0.0",
+    "title": "TIENDATECH API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "petstore.swagger.io",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "productos",
+      "description": "para consulta de productos"
+    },
+    {
+      "name": "clientes",
+      "description": "para registro y consulta de clientes"
+    },
+    {
+      "name": "pedidos",
+      "description": "para registro y consulta de pedidos"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/productos": {
+      "post": {
+        "tags": [
+          "productos"
+        ],
+        "summary": "agregar un nuevo producto",
+        "description": "",
+        "operationId": "addProducto",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "nombre",
+            "description": "imagen del producto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productos"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "productos"
+        ],
+        "summary": "consultar productos",
+        "description": "consulta productos",
+        "operationId": "getProducto",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "productos": {
+      "type": "object",
+      "required": [
+        "nombre"
+      ],
+      "properties": {
+        "nombre": {
+          "type": "string",
+          "example": "cesar"
+        }
+      }
+    }
+  }
+}
